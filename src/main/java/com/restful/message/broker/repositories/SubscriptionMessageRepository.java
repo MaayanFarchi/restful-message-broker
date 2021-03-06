@@ -5,5 +5,5 @@ public interface SubscriptionMessageRepository {
     public void addSubscription(Subscription subscription);
     public void removeSubscription(Subscription subscription);
     public String getMessage(Subscription subscription);
-    public void addMessage(String message);
+    public void addMessage(String message, String topicName);
 }

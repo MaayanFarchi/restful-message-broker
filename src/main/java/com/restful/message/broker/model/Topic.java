@@ -15,6 +15,13 @@ public class Topic {
 
     private String name = "";
 
-    @Autowired
     SubscriptionMessageRepository subscriptionMessageRepository;
+
+    public void addSubscription(Subscription subscription) { subscriptionMessageRepository.addSubscription(subscription);}
+
+    public void removeSubscription(Subscription subscription) { subscriptionMessageRepository.removeSubscription(subscription);}
+
+    public String getMessage(Subscription subscription) {return subscriptionMessageRepository.getMessage(subscription);}
+
+    public void addMessage(String message, String topicName) {subscriptionMessageRepository.addMessage(message, topicName);}
 }

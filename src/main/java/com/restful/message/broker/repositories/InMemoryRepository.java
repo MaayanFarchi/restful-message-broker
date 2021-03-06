@@ -31,7 +31,7 @@ public class InMemoryRepository implements SubscriptionMessageRepository {
     }
 
     @Override
-    public void addMessage(String message) {
+    public void addMessage(String message, String topicName) {
         subscribersMap.forEach((key, value) -> value.add(message));
     }
 }
