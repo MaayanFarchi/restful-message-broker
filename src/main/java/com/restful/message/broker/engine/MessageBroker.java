@@ -2,15 +2,22 @@ package com.restful.message.broker.engine;
 import com.restful.message.broker.exceptions.TopicDoseNotExistsException;
 import com.restful.message.broker.model.Subscription;
 import com.restful.message.broker.model.Topic;
+import com.restful.message.broker.repositories.SubscriptionMessageRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Component
+
 public class MessageBroker {
 
-    List<Topic> topics;
+    List<Topic> topics = new ArrayList<>();
+
+    @Autowired
+    SubscriptionMessageRepository subscriptionMessageRepository;
 
     public void publish(String topicName, String message) {
         Topic topic = obtainTopic(topicName);
@@ -44,6 +51,8 @@ public class MessageBroker {
         Optional<Topic> optionalTopic = topics
                 .stream()
                 .filter(t -> t.getName().equals(topicName)).findFirst();
-        return optionalTopic.orElse(new Topic(topicName));
+        Topic topic = optionalTopic.orElse(new Topic(topicName, subscriptionMessageRepository));
+        topics.add(topic);
+        return topic;
     }
 }

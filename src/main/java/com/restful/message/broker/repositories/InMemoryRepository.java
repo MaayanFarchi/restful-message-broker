@@ -1,12 +1,14 @@
 package com.restful.message.broker.repositories;
 import com.restful.message.broker.exceptions.NotSubscriptionException;
 import com.restful.message.broker.model.Subscription;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
+@Component
 public class InMemoryRepository implements SubscriptionMessageRepository {
 
     Map<Subscription, BlockingQueue<String>> subscribersMap = new HashMap<>();

@@ -12,24 +12,25 @@ import java.util.concurrent.TimeUnit;
 @RestController
 public class MessageBrokerController {
 
+    @Autowired
     MessageBroker messageBroker;
 
-    @PostMapping("/publish/{topicId}")
+    @PostMapping("publish/{topicId}")
     public void publish(@PathVariable String topicId, @RequestBody Message message) {
         messageBroker.publish(topicId, message.getPayload());
     }
 
-    @GetMapping("/subscribe/{topicId}")
+    @GetMapping("subscribe/{topicId}")
     public void subscribe(@RequestHeader("client-id") String clientId, @PathVariable String topicId) {
         messageBroker.subscribe(clientId, topicId);
     }
 
-    @GetMapping("/consumer/{topicId}")
+    @GetMapping("consumer/{topicId}")
     public DeferredResult<String> listen(@RequestHeader("client-id") String clientId, @PathVariable String topicId) {
         return new DeferredResult<>();
     }
 
-    @DeleteMapping("/subscribe/{topicId}")
+    @DeleteMapping("subscribe/{topicId}")
     public void unsubscribe(@RequestHeader("client-id") String clientId, @PathVariable String topicId) {
         messageBroker.unsubscribe(clientId, topicId);
     }
