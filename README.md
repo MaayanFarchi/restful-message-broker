@@ -5,15 +5,15 @@ MAVEN,
 JAVA 11 
 
 # APIS 
-1) subscribe to topic
-GET http://localhost:8080/subscribe/{topicId}
+1) subscribe to topic:
+GET http://localhost:8080/subscribe/{topicId} 
 headers - client-id
-2) publish to topic
+2) publish to topic:
 POST http://localhost:8080/publish/{topicId}
-3) unsubscribe from topic
+3) unsubscribe from topic:
 DELETE http://localhost:8080/subscribe/{topicId}
 headers - client-id
-41) listen to topic
+41) listen to topic:
 GET http://localhost:8080/consumer/{topicId}
 headers - client-id
 
