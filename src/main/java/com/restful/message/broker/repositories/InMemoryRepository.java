@@ -1,6 +1,6 @@
 package com.restful.message.broker.repositories;
 import com.restful.message.broker.exceptions.InterruptedRuntimeException;
-import com.restful.message.broker.exceptions.NotSubscriptionException;
+import com.restful.message.broker.exceptions.NotSuchSubscriptionException;
 import com.restful.message.broker.model.Subscription;
 import lombok.Synchronized;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +17,7 @@ public class InMemoryRepository implements SubscriptionMessageRepository {
 
     Map<Subscription, BlockingQueue<String>> subscribersMap = new HashMap<>();
 
-    @Value("${max.poll.wait.time:5}")
+    @Value("${consumer.poll.wait.max.ms:10000}")
     Long maxPollWaitTime;
 
     @Override
@@ -34,16 +34,15 @@ public class InMemoryRepository implements SubscriptionMessageRepository {
 
     @Override
     public String getMessage(Subscription subscription) {
-        if(!subscribersMap.containsKey(subscription)) throw new NotSubscriptionException("following subscription dose not exists: " + subscription);
+        if(!subscribersMap.containsKey(subscription)) throw new NotSuchSubscriptionException("following subscription dose not exists: " + subscription);
         try {
-            return subscribersMap.get(subscription).poll(maxPollWaitTime, TimeUnit.SECONDS);
+            return subscribersMap.get(subscription).poll(maxPollWaitTime, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
             throw new InterruptedRuntimeException(e.getMessage());
         }
     }
 
     @Override
-    @Synchronized
     public void addMessage(String message, String topicName) {
         subscribersMap.forEach((key, value) -> {
             if(key.getTopic().equals(topicName)) value.add(message);

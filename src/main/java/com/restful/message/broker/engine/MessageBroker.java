@@ -2,7 +2,6 @@ package com.restful.message.broker.engine;
 import com.restful.message.broker.exceptions.TopicDoseNotExistsException;
 import com.restful.message.broker.model.Subscription;
 import com.restful.message.broker.model.Topic;
-import com.restful.message.broker.repositories.InMemoryRepository;
 import com.restful.message.broker.repositories.SubscriptionMessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -38,7 +37,7 @@ public class MessageBroker {
 
     public void unsubscribe(String clientId, String topicName) {
         Topic topic = topics.get(topicName);
-        if(topic != null) {
+        if (topic != null) {
             Subscription subscription = new Subscription(clientId, topicName);
             topic.removeSubscription(subscription);
         }
