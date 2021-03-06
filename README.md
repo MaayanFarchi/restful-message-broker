@@ -1,7 +1,7 @@
-# restful message broker exercise
+# Restful Message Broker Exercise
 
-# requirements
-MAVEN 
+# Requirements
+MAVEN, 
 JAVA 11 
 
 # APIS 
